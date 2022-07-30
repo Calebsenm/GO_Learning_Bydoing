@@ -1,0 +1,2 @@
+int this ocation i going to learn the basics of go
+bouilding proyects
