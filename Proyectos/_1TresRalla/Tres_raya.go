@@ -27,7 +27,30 @@ func Winner(B [9]string,X string)string{
 	if B[0] == X  && B[1] == X && B[2] == X{
 		fmt.Print("Felicidades Has ganado el juego")
 		os.Exit(0)
-	}
+	} else if B[3] == X  && B[4] == X && B[5] == X{
+		fmt.Print("Felicidades Has ganado el juego")
+		os.Exit(0)
+	} else if B[6] == X  && B[7] == X && B[8] == X{
+		fmt.Print("Felicidades Has ganado el juego")
+		os.Exit(0)
+	} else if B[0] == X  && B[3] == X && B[6] == X{
+		fmt.Print("Felicidades Has ganado el juego")
+		os.Exit(0)
+	} else if B[1] == X  && B[4] == X && B[7] == X{
+		fmt.Print("Felicidades Has ganado el juego")
+		os.Exit(0)
+	} else if B[2] == X  && B[5] == X && B[8] == X{
+		fmt.Print("Felicidades Has ganado el juego")
+		os.Exit(0)
+	} else if B[0] == X  && B[4] == X && B[8] == X{
+		fmt.Print("Felicidades Has ganado el juego")
+		os.Exit(0)
+	} else if B[2] == X  && B[4] == X && B[6] == X{
+		fmt.Print("Felicidades Has ganado el juego")
+		os.Exit(0)
+	} 
+
+
 	return "Felicidades has gaando la partida"
 
 
@@ -82,15 +105,13 @@ func main() {
 
 			if H <= 9 && H >= 1 {
 				
-        if A[H-1] == " "{
-          A[H-1] = "X"
+        		if A[H-1] == " "{
+          			A[H-1] = "X"
 
-
-
-        } else{
-          fmt.Println("La ubicacion está ocupada")
-          C = C + 1
-        }
+        	} 	else{
+          			fmt.Println("La ubicacion está ocupada")
+          				C = C + 1
+        		}
 				
 			} else {
 				fmt.Println("Error")
@@ -99,8 +120,6 @@ func main() {
 		} else {
 
 			Winner(A,"X")
-
-
 			fmt.Println(Player_Two + " Te corresponde la letra " + "O")
 
 			H := 0

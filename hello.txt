@@ -1,2 +1,4 @@
 int this ocation i going to learn the basics of go
 bouilding proyects
+
+i start at 1/septiemebre /2022
