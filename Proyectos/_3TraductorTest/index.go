@@ -23,7 +23,7 @@ func main(){
 
 	// create a database object which can be used
     // to connect with database.
-	db, err :=  sql.Open("mysql", "root:Belac14:)@tcp(0.0.0.0:3306)/words")
+	db, err :=  sql.Open("mysql", "root:password@tcp(0.0.0.0:3306)/words")
 	   
     // Now its  time to connect with oru database,
     // database object has a method Ping.
