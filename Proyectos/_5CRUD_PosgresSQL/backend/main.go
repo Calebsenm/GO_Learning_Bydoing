@@ -13,9 +13,7 @@ func main(){
 	http.HandleFunc("/", func(w http.ResponseWriter, peticion *http.Request) {
 		io.WriteString(w, "welcome")
 	})
-
-
-
+	
 	//Server runing
 	Server := http.Server{
 		Addr: ":8080",
