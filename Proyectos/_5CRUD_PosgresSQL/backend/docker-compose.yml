@@ -7,8 +7,12 @@ services:
   db:
     image: postgres
     restart: always
+    container_name: postgres1
+
     environment:
+      POSTGRES_USER: caleb
       POSTGRES_PASSWORD: 12345
+      POSRES_DB: Test
 
   adminer:
     image: adminer
