@@ -12,11 +12,10 @@ services:
     environment:
       POSTGRES_USER: caleb
       POSTGRES_PASSWORD: 12345
-      POSRES_DB: Test
+      POSTGRES_DB: test
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
-
