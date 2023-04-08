@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Mi Página</title>
+	<style>
+		body {
+			background-color: #c2d6d6;
+			font-family: Arial, sans-serif;
+			color: #333;
+		}
+
+		h1 {
+			color: #3d8c3d;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			text-align: center;
+		}
+
+		#datos-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 2px solid limegreen;
+			padding: 20px;
+			margin-bottom: 20px;
+			background-color: white;
+			border-radius: 10px;
+			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+		}
+
+		#datos-container ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		#datos-container ul li {
+			margin-bottom: 10px;
+		}
+
+		#datos-container ul li span {
+			font-weight: bold;
+			margin-right: 10px;
+		}
+
+		.container {
+			width: 10px;
+			height: 10px;
+			position: relative;
+			perspective: 100px;
+		}
+
+		.cube {
+			position: absolute;
+			width: 10%;
+			height: 10%;
+			transform-style: preserve-3d;
+			animation: rotate-cube 3s linear infinite;
+		}
+
+		.cube__face {
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			background-color: green;
+			opacity: 0.5;
+			border: 2px solid black;
+		}
+
+		.cube__face--front {
+			transform: translateZ(150px);
+		}
+
+		.cube__face--back {
+			transform: rotateY(180deg) translateZ(150px);
+		}
+
+		.cube__face--right {
+			transform: rotateY(90deg) translateZ(150px);
+		}
+
+		.cube__face--left {
+			transform: rotateY(-90deg) translateZ(150px);
+		}
+
+		.cube__face--top {
+			transform: rotateX(-90deg) translateZ(150px);
+		}
+
+		.cube__face--bottom {
+			transform: rotateX(90deg) translateZ(150px);
+		}
+
+		@keyframes rotate-cube {
+			0% {
+				transform: rotateX(0) rotateY(0) rotateZ(0);
+			}
+
+			100% {
+				transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+			}
+		}
+
+		#imagen-div {
+			padding: 10px;
+			margin: 10px;
+			width: 80px;
+			height: 80px;
+			background-color: rgba(0, 206, 35, 0.975);
+			border-radius: 10px;
+		}
+
+
+		#fotodiv {
+			width: 80px;
+			height: 80px;
+			border-radius: 10px;
+			border: 2px solid rgb(37, 158, 4);
+			background-color: #0cf60c;
+
+			margin-right: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Atree </h1>
+
+
+
+	<div class="container">
+		<div class="cube">
+			<div class="cube__face cube__face--front"></div>
+			<div class="cube__face cube__face--back"></div>
+			<div class="cube__face cube__face--right"></div>
+			<div class="cube__face cube__face--left"></div>
+			<div class="cube__face cube__face--top"></div>
+			<div class="cube__face cube__face--bottom"></div>
+		</div>
+	</div>
+
+	<div class="cube">
+		<div class="cube__face cube__face--front"></div>
+		<div class="cube__face cube__face--back"></div>
+		<div class="cube__face cube__face--right"></div>
+		<div class="cube__face cube__face--left"></div>
+		<div class="cube__face cube__face--top"></div>
+		<div class="cube__face cube__face--bottom"></div>
+	</div>
+	<div class="container">
+
+	</div>
+
+	<script>
+
+		fetch('http://localhost:2080/api/datos')
+			.then(response => response.json())
+			.then(data => {
+				const contenedorGeneral = document.createElement("div");
+				document.body.appendChild(contenedorGeneral);
+
+				data.forEach(dato => {
+					const datosContainer = document.createElement("div");
+					datosContainer.id = "datos-container";
+					contenedorGeneral.appendChild(datosContainer);
+
+					const fotoDiv = document.createElement("div");
+					fotoDiv.id = "fotodiv";
+					datosContainer.appendChild(fotoDiv);
+
+					const listaDatos = document.createElement("ul");
+					const nombreLi = document.createElement("li");
+					const nombreSpan1 = document.createElement("span");
+					const nombreSpan2 = document.createElement("span");
+					const edadLi = document.createElement("li");
+					const edadSpan1 = document.createElement("span");
+					const edadSpan2 = document.createElement("span");
+					const gmailLi = document.createElement("li");
+					const gmailSpan1 = document.createElement("span");
+					const gmailSpan2 = document.createElement("span");
+
+					nombreSpan1.innerText = "Nombre:";
+					nombreSpan2.innerText = dato.Name;
+					edadSpan1.innerText = "Edad:";
+					edadSpan2.innerText = dato.Age;
+					gmailSpan1.innerText = "Gmail:";
+					gmailSpan2.innerText = dato.Gmail;
+
+					nombreLi.appendChild(nombreSpan1);
+					nombreLi.appendChild(nombreSpan2);
+					edadLi.appendChild(edadSpan1);
+					edadLi.appendChild(edadSpan2);
+					gmailLi.appendChild(gmailSpan1);
+					gmailLi.appendChild(gmailSpan2);
+
+					listaDatos.appendChild(nombreLi);
+					listaDatos.appendChild(edadLi);
+					listaDatos.appendChild(gmailLi);
+
+					datosContainer.appendChild(fotoDiv);
+					datosContainer.appendChild(listaDatos);
+				});
+			});
+
+
+	</script>
+</body>
