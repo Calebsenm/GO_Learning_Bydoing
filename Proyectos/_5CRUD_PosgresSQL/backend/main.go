@@ -15,7 +15,7 @@ type entrega struct {
 	Gmail string
 }
 
-// Codificar los datos de la variable "entregas" como JSON y enviarlos como respuesta
+// Codificar los datos de la variable  como JSON y enviarlos como respuesta
 func getRoute(w http.ResponseWriter, r *http.Request) {
 
 	var entregas []entrega = []entrega{
@@ -54,7 +54,11 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 // routes
 func Routes() {
-	http.HandleFunc("/api/datos", getRoute)
+	http.HandleFunc("/api/datos", getRoute);
+
+
+
+	
 }
 
 // server XD
@@ -79,4 +83,6 @@ func main() {
 		panic(err1)
 	}
 
+
+ 
 }
