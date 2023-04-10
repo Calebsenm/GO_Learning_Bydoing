@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"text/template"
-
-	_ "github.com/lib/pq"
+	"backend/db"
 )
 
 type entrega struct {
@@ -18,18 +17,31 @@ type entrega struct {
 // Codificar los datos de la variable  como JSON y enviarlos como respuesta
 func getRoute(w http.ResponseWriter, r *http.Request) {
 
-	var entregas []entrega = []entrega{
-		{"Caleb", 18, "caleb@gmail.com"},
-		{"Ana", 25, "ana@gmail.com"},
-		{"Juan", 32, "juan@gmail.com"},
-	}
 	if r.Method != http.MethodGet {
 		http.Error(w, "Metodo no permitido", http.StatusMethodNotAllowed)
 		return
 	}
-	err := json.NewEncoder(w).Encode(entregas)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+
+	//llamado a la base de datos
+  	dataBase , _ := db.ConnectPostgres();
+	defer dataBase.Close();
+
+   	data , err := dataBase.Query("SELECT * FROM persona");
+   	if err != nil{
+    	fmt.Println("Eerror -> ", err);
+  	}
+
+	var Users [] entrega
+
+	for data.Next(){
+		var  entregas entrega;
+		fmt.Scan(&entregas.Name , &entregas.Age, &entregas.Gmail)
+		Users = append(Users, entregas)
+	}
+
+	err1 := json.NewEncoder(w).Encode(Users)
+	if err1 != nil {
+		http.Error(w, err1.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -52,29 +64,20 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// routes
-func Routes() {
-	http.HandleFunc("/api/datos", getRoute);
-
-
-
 	
-}
-
 // server XD
 func main() {
 	fmt.Println("Server is running in localhost 2080")
 	// this is the golang server
-	fileServer := http.FileServer(http.Dir("../cliente/src1"))
-	http.Handle("/", fileServer)
-
+	
+	http.Handle("/", http.FileServer(http.Dir("../cliente/src1")))
 	http.HandleFunc("/home", homeHandler)
-	// routes call
-	Routes()
+	http.HandleFunc("/api/datos", getRoute);
+	
 
 	//Server runing
 	Server := http.Server{
-		Addr: ":4080",
+		Addr: ":2080",
 	}
 
 	err1 := Server.ListenAndServe()

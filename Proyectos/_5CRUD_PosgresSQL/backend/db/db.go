@@ -3,25 +3,25 @@ package db
 import  (
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
+
 )
 
 const(
-	DB_HOST = "localhost"
-	DB_PORT = "5432"
 	DB_USER = "caleb"
-	DB_PASWORD = "12345"
+	DB_PASSWORD = "12345"
 	DB_NAME = "test"
 )
 
 
 func ConnectPostgres()  (*sql.DB , error ) {
 
-	postgresInfo :=  fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-								 DB_HOST,DB_PORT,DB_USER, DB_PASWORD,DB_NAME)
 
-	db , err := sql.Open("postgresql", postgresInfo)
+	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", "localhost", 5432, DB_USER, DB_PASSWORD, DB_NAME))
+
 
 	if err != nil{
+		fmt.Println("postgresql")
 		panic(err)
 	}
 

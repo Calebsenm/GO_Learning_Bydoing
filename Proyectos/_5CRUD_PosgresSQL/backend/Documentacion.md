@@ -22,3 +22,19 @@ sudo  docker exec -it postgres1 bash
 
 luego
 psql -U caleb -d test
+
+
+para usar la  base  de  datos 
+
+CREATE TABLE persona (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    age INTEGER,
+    gmail VARCHAR(255)
+);
+
+para insertar datos  
+
+INSERT INTO persona (name, age, gmail) VALUES ('Juan', 32, 'juan@gmail.com');
+
+
