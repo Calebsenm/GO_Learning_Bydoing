@@ -9,10 +9,12 @@ import (
 )
 
 type entrega struct {
-	Name  string
+	Id    int 
+  Name  string
 	Age   int
 	Gmail string
 }
+
 
 // Codificar los datos de la variable  como JSON y enviarlos como respuesta
 func getRoute(w http.ResponseWriter, r *http.Request) {
@@ -22,20 +24,23 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+  fmt.Println("XD")
 	//llamado a la base de datos
-  	dataBase , _ := db.ConnectPostgres();
+  dataBase , _ := db.ConnectPostgres();
 	defer dataBase.Close();
+  
+  data , err := dataBase.Query("SELECT * FROM persona");
+  if err != nil{
+    fmt.Println("Eerror -> ", err);
+  }
 
-   	data , err := dataBase.Query("SELECT * FROM persona");
-   	if err != nil{
-    	fmt.Println("Eerror -> ", err);
-  	}
-
+  fmt.Println(data)
 	var Users [] entrega
-
 	for data.Next(){
 		var  entregas entrega;
-		fmt.Scan(&entregas.Name , &entregas.Age, &entregas.Gmail)
+    fmt.Println(data)
+		data.Scan(&entregas.Id,&entregas.Name , &entregas.Age, &entregas.Gmail)
+    
 		Users = append(Users, entregas)
 	}
 
