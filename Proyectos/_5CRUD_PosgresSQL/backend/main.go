@@ -1,20 +1,19 @@
 package main
 
 import (
+	"backend/db"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"text/template"
-	"backend/db"
 )
 
 type entrega struct {
-	Id    int 
-  Name  string
+	Id    int
+	Name  string
 	Age   int
 	Gmail string
 }
-
 
 // Codificar los datos de la variable  como JSON y enviarlos como respuesta
 func getRoute(w http.ResponseWriter, r *http.Request) {
@@ -25,26 +24,26 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//llamado a la base de datos
-  dataBase , _ := db.ConnectPostgres();
-	defer dataBase.Close();
-  
-  data , err := dataBase.Query("SELECT * FROM persona");
-  
-  if err != nil{
-    fmt.Println("Eerror -> ", err);
-  }
+	dataBase, _ := db.ConnectPostgres()
+	defer dataBase.Close()
 
-  fmt.Println(data)
-	var Users [] entrega
-	for data.Next(){
-		var  entregas entrega;
-  
-	  data.Scan(&entregas.Id,&entregas.Name , &entregas.Age, &entregas.Gmail)
-    fmt.Println(entregas)
+	data, err := dataBase.Query("SELECT * FROM persona")
+
+	if err != nil {
+		fmt.Println("Eerror -> ", err)
+	}
+
+	fmt.Println(data)
+	var Users []entrega
+	for data.Next() {
+		var entregas entrega
+
+		data.Scan(&entregas.Id, &entregas.Name, &entregas.Age, &entregas.Gmail)
+		fmt.Println(entregas)
 		Users = append(Users, entregas)
 	}
-  
-  // renderizado 
+
+	// renderizado
 	err1 := json.NewEncoder(w).Encode(Users)
 	if err1 != nil {
 		http.Error(w, err1.Error(), http.StatusInternalServerError)
@@ -70,36 +69,35 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-	
 // server XD
 func main() {
 	fmt.Println("Server is running in localhost 2080")
 	// this is the golang server
-	
+
 	http.Handle("/", http.FileServer(http.Dir("../cliente/src1")))
 	http.HandleFunc("/home", homeHandler)
 	// get
-  http.HandleFunc("/api/datos", getRoute);
+	http.HandleFunc("/api/datos", getRoute)
 	// post
-  http.HandleFunc("/api/datos/new", func (w http.ResponseWriter, r *http.Request){
+	http.HandleFunc("/api/datos/new", func(w http.ResponseWriter, r *http.Request) {
 
-    if r.Method != http.MethodPost {
-		  http.Error(w, "Metodo no permitido", http.StatusMethodNotAllowed)
-		  return
-	  }
-  
-    var nuevaEntrega entrega 
+		if r.Method != http.MethodPost {
+			http.Error(w, "Metodo no permitido", http.StatusMethodNotAllowed)
+			return
+		}
+
+		var nuevaEntrega entrega
 		err := json.NewDecoder(r.Body).Decode(&nuevaEntrega)
 
-    if err != nil {
+		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-    
-    fmt.Println("Datos recibidos Con exito!!! ");
-    fmt.Println(nuevaEntrega)
 
-  });
+		fmt.Println("Datos recibidos Con exito!!! ")
+		fmt.Println(nuevaEntrega)
+
+	})
 
 
 
@@ -111,13 +109,14 @@ func main() {
 	}
 
 	err1 := Server.ListenAndServe()
-  
+
 	if err1 != nil {
 		panic(err1)
 	}
 }
 
 
+/*
 
 
-
+*/
