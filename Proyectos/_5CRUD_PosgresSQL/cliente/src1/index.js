@@ -1,36 +1,53 @@
-document.addEventListener("DOMContentLoaded", function () {
-    var input = document.querySelector('input[type="submit"]');
 
-    input.addEventListener('click', function () {
-        // Aquí puede agregar el código que se ejecutará cuando se haga clic en el botón de envío.
-        const id = document.querySelector('#identificacion').value;
-        const nombre = document.querySelector('#nombre').value;
-        const edad = document.querySelector('#edad').value;
-        const gmail = document.querySelector('#gmail').value;
+function buttonClick(event ) {
+  event.preventDefault();
 
-        const datos = {
-            id: id,
-            nombre: nombre,
-            edad: edad,
-            gmail: gmail
-        };
+  var id =  parseInt(document.querySelector('#Id').value);
+  var nombre = document.querySelector('#Nombre').value;
+  var edad =  parseInt(document.querySelector('#edad').value);
+  var gmail = document.querySelector('#gmail').value;
+  
+  if (id != "" && nombre != "" && edad != "" && gmail != "") {
+    
 
-        const datosJson = JSON.stringify(datos);
-        console.log(datosJson)
-        alert(datosJson);
+    fetch('http://localhost:3080/api/datos/new', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+      
+          Id: id,
+          Name: nombre,
+          Age:edad,
+          Gmail: gmail,
+      })
+    })
 
-        fetch('http://localhost:2080/api/datos/new', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: datosJson
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
+    Correcto();
 
-    });
+  }else {
+    Error();
+  }
+
+}
 
 
-});
+
+function Error() {
+  var contenedor = document.getElementById('contenedor');
+  contenedor.style.cssText = 'background-color: red; color: white; font-size: 20px;';
+  contenedor.innerHTML = 'LLene todos los datos :)';
+
+}
+
+function Correcto(){
+  var contenedor = document.getElementById('contenedor');
+  contenedor.style.cssText = 'background-color: green; color: white; font-size: 20px;';
+  contenedor.innerHTML = 'Datos Enviados con exito:)';
+
+}
+
+
+
+
+
+

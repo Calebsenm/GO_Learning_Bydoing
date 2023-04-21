@@ -38,3 +38,6 @@ para insertar datos
 INSERT INTO persona (name, age, gmail) VALUES ('Juan', 32, 'juan@gmail.com');
 
 
+para hacer un testeo rapido 
+
+curl -X POST -H "Content-Type: application/json" -d '{"Id":7,"Name":"Carlos","Age":28,"Gmail":"carlos@gmail.com"}' http://localhost:3080/api/datos/new

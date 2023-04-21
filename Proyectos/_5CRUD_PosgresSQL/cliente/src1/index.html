@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,100 +8,44 @@
     <title>Formulario de Registro</title>
     <script src="index.js"></script>
 
-    <style>
-        body {
-            background-color: #f7f7f7;
-            font-family: Arial, sans-serif;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-top: 40px;
-        }
-        
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        
-        input[type=text] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 3px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        
-        input[type=submit] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 20px;
-                 
-    
-        }
-        
-        input[type=submit]:hover {
-            background-color: #3e8e41;
-            
-        }
-        
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-        
-        footer a {
-            color: #fff;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  
     <h1>Formulario de Registro</h1>
-    <form>
+    <form   onsubmit="buttonClick(event)" id="Formularios"  method="POST"  " >
         <div>
-            <label for="id" id="identificacion" >ID:</label>
-            <input type="text" id="identificacion" name="id">
-          </div>  
+            <label for="Id" >ID:</label>
+            <input type="text" id="Id" name="Id">
+        </div>
         <div>
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre">
-        </div>    
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="Nombre" name="Nombre">
+        </div>
         <div>
-          <label for="edad">Edad:</label>
-          <input type="text" id="edad" name="edad">
-        </div> 
+            <label for="edad">Edad:</label>
+            <input type="text" id="edad" name="edad">
+        </div>
         <div>
-          <label for="gmail">Gmail:</label>
-          <input type="text" id="gmail" name="gmail">
-        </div> 
-        <input type="submit" value="Registrarse"  >
+            <label for="gmail">Gmail:</label>
+            <input type="text" id="gmail" name="gmail">
+        </div>
+        <input type="submit" name="Registrarse" id="button" value="Registro">
+    
+
+        <div id="contenedor"> 
+           
+        </div>
+        <button class="botones"> <a href="http://localhost:3080/home">Ver Datos </a></button>
     </form>
+
     <footer>
         <div>
             © 2023 - Todos los derechos reservados - <a href="#">Política de privacidad</a>
         </div>
     </footer>
 
- 
-      
-</body>
 
+</body>
 </html>

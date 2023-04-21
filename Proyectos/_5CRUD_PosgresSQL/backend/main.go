@@ -39,7 +39,6 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
 		var entregas entrega
 
 		data.Scan(&entregas.Id, &entregas.Name, &entregas.Age, &entregas.Gmail)
-		fmt.Println(entregas)
 		Users = append(Users, entregas)
 	}
 
@@ -71,7 +70,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 // server XD
 func main() {
-	fmt.Println("Server is running in localhost 2080")
+	fmt.Println("Server is running in localhost 3080")
 	// this is the golang server
 
 	http.Handle("/", http.FileServer(http.Dir("../cliente/src1")))
@@ -96,16 +95,36 @@ func main() {
 
 		fmt.Println("Datos recibidos Con exito!!! ")
 		fmt.Println(nuevaEntrega)
+		
+		// Coneccion a la base De datos 
 
+		//llamado a la base de datos
+		dataBase, _ := db.ConnectPostgres()
+		defer dataBase.Close()
+
+		//comprueba si los datos fueron enviados a  la base de datos
+		query := "SELECT id FROM persona WHERE id ='" + nuevaEntrega.Gmail + "'"
+
+		var id int 
+		err = dataBase.QueryRow(query).Scan(&id)
+
+		if err != nil {
+
+			insertQuery := "INSERT INTO persona(name, age, gmail) VALUES($1, $2, $3)"
+			_, err = dataBase.Exec(insertQuery, nuevaEntrega.Name, nuevaEntrega.Age, nuevaEntrega.Gmail)
+			
+			if err != nil {
+				fmt.Println("Error ", err)
+			}else {
+				fmt.Println("la entrega Guardada con exito")
+				fmt.Println(nuevaEntrega)
+			}
+		}
 	})
-
-
-
-
 
 	//Server runing
 	Server := http.Server{
-		Addr: ":2080",
+		Addr: ":3080",
 	}
 
 	err1 := Server.ListenAndServe()
@@ -115,8 +134,3 @@ func main() {
 	}
 }
 
-
-/*
-
-
-*/

@@ -27,6 +27,7 @@
 			border-radius: 10px;
 			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 		}
+
 		#datos-container ul {
 			list-style: none;
 			padding: 0;
@@ -42,7 +43,7 @@
 			margin-right: 10px;
 		}
 
-		
+
 		#fotodiv {
 			width: 50px;
 			height: 50px;
@@ -51,16 +52,32 @@
 			background-color: #0cf60c;
 			margin-right: 10px;
 		}
-		
+
+		.botones {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			font-size: 16px;
+			margin-bottom: 20px;
+
+
+		}
+
+		a {
+			text-decoration: none;
+		}
 	</style>
 </head>
 
 <body>
 	<h1>Datos Ramdoms </h1>
-	<input type="submit" value="Ingresar Datos" >
+	<button class="botones"> <a href="http://localhost:3080/"> Registrar </a></button>
 	<script>
 
-		fetch('http://localhost:2080/api/datos')
+		fetch('http://localhost:3080/api/datos')
 			.then(response => response.json())
 			.then(data => {
 				const contenedorGeneral = document.createElement("div");
@@ -85,8 +102,8 @@
 					const gmailLi = document.createElement("li");
 					const gmailSpan1 = document.createElement("span");
 					const gmailSpan2 = document.createElement("span");
-					
-					
+
+
 
 					nombreSpan1.innerText = "Nombre:";
 					nombreSpan2.innerText = dato.Name;
@@ -94,8 +111,8 @@
 					edadSpan2.innerText = dato.Age;
 					gmailSpan1.innerText = "Gmail:";
 					gmailSpan2.innerText = dato.Gmail;
-		
-				
+
+
 
 					nombreLi.appendChild(nombreSpan1);
 					nombreLi.appendChild(nombreSpan2);
@@ -103,7 +120,7 @@
 					edadLi.appendChild(edadSpan2);
 					gmailLi.appendChild(gmailSpan1);
 					gmailLi.appendChild(gmailSpan2);
-				
+
 
 					listaDatos.appendChild(nombreLi);
 					listaDatos.appendChild(edadLi);
