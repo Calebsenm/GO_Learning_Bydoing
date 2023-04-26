@@ -4,70 +4,113 @@
 <head>
 	<title>Mi Página</title>
 	<style>
-		body {
-			background-color: #c2d6d6;
-			font-family: Arial, sans-serif;
-			color: #333;
+		/* Estilos para botones */
+		.botones {
+			background-color: #4CAF50;
+			/* color de fondo verde */
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 7px;
+			/* bordes redondeados */
 		}
 
+		/* Estilos para otros elementos */
 		h1 {
-			color: #3d8c3d;
-			margin-top: 20px;
-			margin-bottom: 20px;
+			color: #4CAF50;
+			/* color verde */
+			font-size: 36px;
 			text-align: center;
+		}
+
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
 		}
 
 		#datos-container {
 			display: flex;
 			align-items: center;
-			justify-content: center;
-			border: 2px solid limegreen;
-			margin: 5px;
-			background-color: white;
-			border-radius: 10px;
-			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+			margin: 20px;
+			padding: 20px;
+			border: 1px solid #4CAF50;
+			/* borde verde */
+			border-radius: 7px;
+			/* bordes redondeados */
 		}
 
-		#datos-container ul {
-			list-style: none;
-			padding: 0;
-			margin: 0;
+		#fotodiv {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			/* bordes redondeados */
+			background-color: #ccc;
+			margin-right: 20px;
 		}
 
-		#datos-container ul li {
+		#fotodiv img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			border-radius: 50%;
+			/* bordes redondeados */
+		}
+
+		label {
+			display: block;
 			margin-bottom: 10px;
 		}
 
-		#datos-container ul li span {
-			font-weight: bold;
-			margin-right: 10px;
-		}
-
-
-		#fotodiv {
-			width: 50px;
-			height: 50px;
-			border-radius: 10px;
-			border: 2px solid rgb(37, 158, 4);
-			background-color: #0cf60c;
-			margin-right: 10px;
-		}
-
-		.botones {
-			background-color: #4CAF50;
-			color: white;
-			padding: 10px 20px;
-			border: none;
-			border-radius: 3px;
-			cursor: pointer;
+		input {
+			padding: 10px;
 			font-size: 16px;
+			border-radius: 5px;
+			/* bordes redondeados */
+			border: 1px solid #ccc;
+			width: 97%;
 			margin-bottom: 20px;
-
-
 		}
 
-		a {
-			text-decoration: none;
+		/* Estilos para la ventana modal */
+		.modal {
+			display: none;
+			/* oculta la ventana modal */
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.4);
+			
+			/* fondo semitransparente */
+		}
+
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			border-radius: 10px;
+			/* bordes redondeados */
+			max-width: 500px;
+			min-width: 300px;
+		}
+
+		.modal h2 {
+			margin-top: 0;
+		}
+
+		.modal button {
+			margin-top: 20px;
 		}
 	</style>
 </head>
@@ -76,6 +119,62 @@
 	<h1>Datos Ramdoms </h1>
 	<button class="botones"> <a href="http://localhost:3080/"> Registrar </a></button>
 	<script>
+
+		function mostrarModal() {
+			// Crear la ventana modal
+			const modal = document.createElement("div");
+			modal.classList.add("modal");
+
+			// Agregar contenido a la ventana modal
+			const modalContent = document.createElement("div");
+			modalContent.classList.add("modal-content");
+
+			const titulo = document.createElement("h2");
+			titulo.innerText = "Editar datos";
+			modalContent.appendChild(titulo);
+
+			const nombreLabel = document.createElement("label");
+			nombreLabel.innerText = "Nombre:";
+			const nombreInput = document.createElement("input");
+			nombreInput.setAttribute("type", "text");
+			modalContent.appendChild(nombreLabel);
+			modalContent.appendChild(nombreInput);
+
+			const edadLabel = document.createElement("label");
+			edadLabel.innerText = "Edad:";
+			const edadInput = document.createElement("input");
+			edadInput.setAttribute("type", "text");
+			modalContent.appendChild(edadLabel);
+			modalContent.appendChild(edadInput);
+
+			const gmailLabel = document.createElement("label");
+			gmailLabel.innerText = "Gmail:";
+			const gmailInput = document.createElement("input");
+			gmailInput.setAttribute("type", "text");
+			modalContent.appendChild(gmailLabel);
+			modalContent.appendChild(gmailInput);
+
+			const guardarBtn = document.createElement("button");
+			guardarBtn.innerText = "Guardar";
+			guardarBtn.classList.add("botones");
+			guardarBtn.addEventListener("click", () => {
+				// aquí puedes agregar el código para guardar los datos editados
+				// y cerrar la ventana modal
+				modal.style.display = "none";
+			});
+			modalContent.appendChild(guardarBtn);
+
+			modal.appendChild(modalContent);
+
+			// Agregar la ventana modal al cuerpo del documento
+			document.body.appendChild(modal);
+
+			// Mostrar la ventana modal
+			modal.style.display = "block";
+		}
+
+
+
 
 		fetch('http://localhost:3080/api/datos')
 			.then(response => response.json())
@@ -128,6 +227,22 @@
 
 					datosContainer.appendChild(fotoDiv);
 					datosContainer.appendChild(listaDatos);
+
+
+					const borrarBtn = document.createElement("button");
+					borrarBtn.innerText = "Borrar";
+					borrarBtn.classList.add("botones");
+					datosContainer.appendChild(borrarBtn);
+
+					const editarBtn = document.createElement("button");
+					editarBtn.innerText = "Editar";
+					editarBtn.classList.add("botones");
+
+					datosContainer.appendChild(editarBtn);
+					editarBtn.addEventListener("click", mostrarModal);
+
+
+
 				});
 			});
 
