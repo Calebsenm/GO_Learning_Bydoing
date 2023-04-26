@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"text/template"
+  "strconv"
+	"strings"
 )
 
 type entrega struct {
@@ -14,6 +16,7 @@ type entrega struct {
 	Age   int
 	Gmail string
 }
+
 
 // Codificar los datos de la variable  como JSON y enviarlos como respuesta
 func getRoute(w http.ResponseWriter, r *http.Request) {
@@ -33,9 +36,10 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Eerror -> ", err)
 	}
 
-	fmt.Println(data)
-	var Users []entrega
-	for data.Next() {
+  
+  var Users []entrega
+  
+  for data.Next() {
 		var entregas entrega
 
 		data.Scan(&entregas.Id, &entregas.Name, &entregas.Age, &entregas.Gmail)
@@ -50,6 +54,20 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func getDataId( w http.ResponseWriter , r * http.Request){
+  
+  // the id from the url 
+  idStr := strings.TrimPrefix(r.URL.Path,"/api/datos/{id}" )
+  id, err := strconv.Atoi(idStr)
+  if err != nil {
+		http.Error(w, "Invalid ID", http.StatusBadRequest)
+		return
+	}
+  
+  fmt.Println()
+}
+
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	// Cargar el archivo HTML en una plantilla
@@ -68,23 +86,13 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// server XD
-func main() {
-	fmt.Println("Server is running in localhost 3080")
-	// this is the golang server
-
-	http.Handle("/", http.FileServer(http.Dir("../cliente/src1")))
-	http.HandleFunc("/home", homeHandler)
-	// get
-	http.HandleFunc("/api/datos", getRoute)
-	// post
-	http.HandleFunc("/api/datos/new", func(w http.ResponseWriter, r *http.Request) {
+func putData ( w http.ResponseWriter , r *http.Request){
 
 		if r.Method != http.MethodPost {
 			http.Error(w, "Metodo no permitido", http.StatusMethodNotAllowed)
 			return
 		}
-
+  
 		var nuevaEntrega entrega
 		err := json.NewDecoder(r.Body).Decode(&nuevaEntrega)
 
@@ -120,7 +128,31 @@ func main() {
 				fmt.Println(nuevaEntrega)
 			}
 		}
-	})
+}
+
+func updateUser( w http.ResponseWriter , r * http.Request ){
+
+  var data  entrega 
+  json.NewDecoder(r.Body).Decode(&data)
+  fmt.Println(data)
+
+}
+
+
+// server XD
+func main() {
+	fmt.Println("Server is running in localhost 3080")
+	// this is the golang server
+
+	http.Handle("/", http.FileServer(http.Dir("../cliente/src1")))
+	http.HandleFunc("/home", homeHandler)
+	// get
+	http.HandleFunc("/api/datos", getRoute)
+  http.HandleFunc("/api/datos/{id}",getDataId)
+	// post
+	http.HandleFunc("/api/datos/new", putData)
+  // put 
+  http.HandleFunc("/api/datos{id}",updateUser)
 
 	//Server runing
 	Server := http.Server{
@@ -133,4 +165,5 @@ func main() {
 		panic(err1)
 	}
 }
+
 
