@@ -116,6 +116,7 @@
 </head>
 
 <body>
+
 	<h1>Datos Ramdoms </h1>
 	<button class="botones"> <a href="http://localhost:3080/"> Registrar </a></button>
 	<script>
@@ -172,7 +173,10 @@
 			// Mostrar la ventana modal
 			modal.style.display = "block";
 		}
+    
+    function BorrarUser(){
 
+    }
 
 
 
@@ -233,11 +237,11 @@
 					borrarBtn.innerText = "Borrar";
 					borrarBtn.classList.add("botones");
 					datosContainer.appendChild(borrarBtn);
+          borrarBtn.addEventListener("click",BorrarUser)
 
 					const editarBtn = document.createElement("button");
 					editarBtn.innerText = "Editar";
 					editarBtn.classList.add("botones");
-
 					datosContainer.appendChild(editarBtn);
 					editarBtn.addEventListener("click", mostrarModal);
 
