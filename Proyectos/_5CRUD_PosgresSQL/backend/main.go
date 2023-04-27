@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"net/http"
 	"text/template"
+  "strings"
+  "io/ioutil"
   "strconv"
-	"strings"
 )
 
 type entrega struct {
@@ -16,8 +17,7 @@ type entrega struct {
 	Age   int
 	Gmail string
 }
-
-
+   
 // Codificar los datos de la variable  como JSON y enviarlos como respuesta
 func getRoute(w http.ResponseWriter, r *http.Request) {
 
@@ -41,9 +41,10 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
   
   for data.Next() {
 		var entregas entrega
-
 		data.Scan(&entregas.Id, &entregas.Name, &entregas.Age, &entregas.Gmail)
-		Users = append(Users, entregas)
+		
+    Users = append(Users, entregas)
+  
 	}
 
 	// renderizado
@@ -56,16 +57,41 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
 }
 
 func getDataId( w http.ResponseWriter , r * http.Request){
+   
+  fmt.Println("Peticion Echa :X")
+
+  // parsea la direccion  /api/datos/1
+  url := strings.Split(r.URL.Path , "/")
+  fmt.Println("ID: ", url[3])
+  // hace un get a la api para luego convertirla en una estrucctura 
+  resp , err := http.Get( "http://localhost:3080/api/datos")
   
-  // the id from the url 
-  idStr := strings.TrimPrefix(r.URL.Path,"/api/datos/{id}" )
-  id, err := strconv.Atoi(idStr)
-  if err != nil {
-		http.Error(w, "Invalid ID", http.StatusBadRequest)
-		return
-	}
+  if err != nil{
+    fmt.Println("Error al obtener la respuesta de la API:", err)
+    return
+  }
+  defer resp.Body.Close()
+
+  // le la entrega  y la pasa los datos a una estrucctura 
+  body, err := ioutil.ReadAll(resp.Body)
+  var  Usuarios []entrega 
+  err = json.Unmarshal(body,&Usuarios)
   
-  fmt.Println()
+  if err != nil{
+    fmt.Println("Error al analizar el JSON:", err)
+    return
+  }
+
+  id := url[3]
+  num, _ := strconv.Atoi(id)
+
+
+  for _, dato := range Usuarios {
+    if dato.Id == num{
+        fmt.Println(dato)
+      	json.NewEncoder(w).Encode(dato)
+    }
+  }
 }
 
 
@@ -148,7 +174,7 @@ func main() {
 	http.HandleFunc("/home", homeHandler)
 	// get
 	http.HandleFunc("/api/datos", getRoute)
-  http.HandleFunc("/api/datos/{id}",getDataId)
+  http.HandleFunc("/api/datos/",getDataId)
 	// post
 	http.HandleFunc("/api/datos/new", putData)
   // put 
