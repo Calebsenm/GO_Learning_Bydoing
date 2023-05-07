@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"net/http"
 	"text/template"
-  "strings"
-  "io/ioutil"
-  "strconv"
+    "strings"
+    "io/ioutil"
+    "strconv"
 )
 
 type entrega struct {
@@ -36,7 +36,7 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Eerror -> ", err)
 	}
 
-  
+
   var Users []entrega
   
   for data.Next() {
@@ -112,6 +112,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Modificar los datos en la tabla   
 func putData ( w http.ResponseWriter , r *http.Request){
 
 		if r.Method != http.MethodPost {
@@ -156,11 +157,16 @@ func putData ( w http.ResponseWriter , r *http.Request){
 		}
 }
 
+
+// para el metodo put y modificar los datos 
 func updateUser( w http.ResponseWriter , r * http.Request ){
 
-  var data  entrega 
-  json.NewDecoder(r.Body).Decode(&data)
-  fmt.Println(data)
+
+    fmt.Println("Los datos Nuevos")
+
+    var data  entrega 
+    json.NewDecoder(r.Body).Decode(&data)
+    fmt.Println(data)
 
 }
 
@@ -170,15 +176,15 @@ func main() {
 	fmt.Println("Server is running in localhost 3080")
 	// this is the golang server
 
-	http.Handle("/", http.FileServer(http.Dir("../cliente/src1")))
-	http.HandleFunc("/home", homeHandler)
+	http.Handle("/", http.FileServer(http.Dir("../cliente/src1")));
+	http.HandleFunc("/home", homeHandler);
 	// get
-	http.HandleFunc("/api/datos", getRoute)
-  http.HandleFunc("/api/datos/",getDataId)
+	http.HandleFunc("/api/datos", getRoute);
+    http.HandleFunc("/api/datos/{id}",getDataId);
 	// post
-	http.HandleFunc("/api/datos/new", putData)
-  // put 
-  http.HandleFunc("/api/datos{id}",updateUser)
+	http.HandleFunc("/api/datos/new", putData);
+    // put 
+    http.HandleFunc("/api/datos/{id}",updateUser);
 
 	//Server runing
 	Server := http.Server{
