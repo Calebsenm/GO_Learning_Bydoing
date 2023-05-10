@@ -42,5 +42,6 @@ para hacer un testeo rapido
 
 curl -X POST -H "Content-Type: application/json" -d '{"Id":7,"Name":"Carlos","Age":28,"Gmail":"carlos@gmail.com"}' http://localhost:3080/api/datos/new    
 
-
+// put method
+curl -X PUT -H "Content-Type: application/json" -d '{"Id":4,"Name":"Ana","Age":25,"Gmail":"ana@gmail.com"}' http://localhost:3080/api/datos/4
 

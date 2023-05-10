@@ -57,7 +57,13 @@ func getRoute(w http.ResponseWriter, r *http.Request) {
 }
 
 func getDataId( w http.ResponseWriter , r * http.Request){
-   
+  
+
+    if r.Method != http.MethodGet{
+		http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
+		return
+	}
+
   fmt.Println("Peticion Echa :X")
 
   // parsea la direccion  /api/datos/1
@@ -113,7 +119,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 //Modificar los datos en la tabla   
-func putData ( w http.ResponseWriter , r *http.Request){
+func postData ( w http.ResponseWriter , r *http.Request){
 
 		if r.Method != http.MethodPost {
 			http.Error(w, "Metodo no permitido", http.StatusMethodNotAllowed)
@@ -159,14 +165,7 @@ func putData ( w http.ResponseWriter , r *http.Request){
 
 
 // para el metodo put y modificar los datos 
-func updateUser( w http.ResponseWriter , r * http.Request ){
-
-
-    fmt.Println("Los datos Nuevos")
-
-    var data  entrega 
-    json.NewDecoder(r.Body).Decode(&data)
-    fmt.Println(data)
+func putUser( w http.ResponseWriter , r * http.Request ){
 
 }
 
@@ -180,11 +179,11 @@ func main() {
 	http.HandleFunc("/home", homeHandler);
 	// get
 	http.HandleFunc("/api/datos", getRoute);
-    http.HandleFunc("/api/datos/{id}",getDataId);
+    http.HandleFunc("/api/datos/",getDataId);
 	// post
-	http.HandleFunc("/api/datos/new", putData);
+	http.HandleFunc("/api/datos/new", postData);
     // put 
-    http.HandleFunc("/api/datos/{id}",updateUser);
+    http.HandleFunc("/api/datos/",putUser);
 
 	//Server runing
 	Server := http.Server{

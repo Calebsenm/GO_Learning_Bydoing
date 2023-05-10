@@ -121,7 +121,8 @@
 	<button class="botones"> <a href="http://localhost:3080/"> Registrar </a></button>
 	<script>
 
-		function mostrarModal() {
+        //Modal para ver hacer una modificacion de los contenidos 
+		function mostrarModal(idDatos){
 			// Crear la ventana modal
 			const modal = document.createElement("div");
 			modal.classList.add("modal");
@@ -138,13 +139,16 @@
 			nombreLabel.innerText = "Nombre:";
 			const nombreInput = document.createElement("input");
 			nombreInput.setAttribute("type", "text");
+            nombreInput.setAttribute("id","nombreInput");
 			modalContent.appendChild(nombreLabel);
 			modalContent.appendChild(nombreInput);
+
 
 			const edadLabel = document.createElement("label");
 			edadLabel.innerText = "Edad:";
 			const edadInput = document.createElement("input");
 			edadInput.setAttribute("type", "text");
+            edadInput.setAttribute("id","edadInput");
 			modalContent.appendChild(edadLabel);
 			modalContent.appendChild(edadInput);
 
@@ -152,19 +156,32 @@
 			gmailLabel.innerText = "Gmail:";
 			const gmailInput = document.createElement("input");
 			gmailInput.setAttribute("type", "text");
+            gmailInput.setAttribute("id","gmailInput");
 			modalContent.appendChild(gmailLabel);
 			modalContent.appendChild(gmailInput);
 
+
+            // create the bottoms to save and send the data
 			const guardarBtn = document.createElement("button");
 			guardarBtn.innerText = "Guardar";
 			guardarBtn.classList.add("botones");
 			guardarBtn.addEventListener("click", () => {
 				// aquí puedes agregar el código para guardar los datos editados
-				// y cerrar la ventana modal
+                var Persona = {
+                    "Id":    idDatos,
+                    "Name":  nombreInput.value,
+                    "Age":   edadInput.value,
+                    "Gmail": gmailInput.value,
+                }
+                
+                alert("Datos Modificados Con Exito :\n\n" + JSON.stringify(Persona, null, 4));
+				
+
+                // y cerrar la ventana modal
 				modal.style.display = "none";
 			});
-			modalContent.appendChild(guardarBtn);
 
+			modalContent.appendChild(guardarBtn);
 			modal.appendChild(modalContent);
 
 			// Agregar la ventana modal al cuerpo del documento
@@ -173,10 +190,12 @@
 			// Mostrar la ventana modal
 			modal.style.display = "block";
 		}
-    
-    function BorrarUser(){
+   
 
-    }
+        function deleteUsers(idData){
+    
+            alert("Data Deleted")
+        }
 
 
 
@@ -195,27 +214,23 @@
 					fotoDiv.id = "fotodiv";
 					datosContainer.appendChild(fotoDiv);
 
-					const listaDatos = document.createElement("ul");
-					const nombreLi = document.createElement("li");
+					const listaDatos  = document.createElement("ul");
+					const nombreLi    = document.createElement("li");
 					const nombreSpan1 = document.createElement("span");
 					const nombreSpan2 = document.createElement("span");
-					const edadLi = document.createElement("li");
-					const edadSpan1 = document.createElement("span");
-					const edadSpan2 = document.createElement("span");
-					const gmailLi = document.createElement("li");
-					const gmailSpan1 = document.createElement("span");
-					const gmailSpan2 = document.createElement("span");
+					const edadLi      = document.createElement("li");
+					const edadSpan1   = document.createElement("span");
+					const edadSpan2   = document.createElement("span");
+					const gmailLi     = document.createElement("li");
+					const gmailSpan1  = document.createElement("span");
+					const gmailSpan2  = document.createElement("span");
 
-
-
-					nombreSpan1.innerText = "Nombre:";
-					nombreSpan2.innerText = dato.Name;
-					edadSpan1.innerText = "Edad:";
-					edadSpan2.innerText = dato.Age;
-					gmailSpan1.innerText = "Gmail:";
-					gmailSpan2.innerText = dato.Gmail;
-
-
+					nombreSpan1.innerText =  "Nombre:";
+					nombreSpan2.innerText =  dato.Name;
+					edadSpan1.innerText   =  "Edad:";
+					edadSpan2.innerText   =  dato.Age;
+					gmailSpan1.innerText  =  "Gmail:";
+					gmailSpan2.innerText  =  dato.Gmail;
 
 					nombreLi.appendChild(nombreSpan1);
 					nombreLi.appendChild(nombreSpan2);
@@ -237,15 +252,23 @@
 					borrarBtn.innerText = "Borrar";
 					borrarBtn.classList.add("botones");
 					datosContainer.appendChild(borrarBtn);
-          borrarBtn.addEventListener("click",BorrarUser)
+                    borrarBtn.addEventListener("click",deleteUsers);
 
 					const editarBtn = document.createElement("button");
 					editarBtn.innerText = "Editar";
+                    editarBtn.setAttribute("type","button")
 					editarBtn.classList.add("botones");
 					datosContainer.appendChild(editarBtn);
-					editarBtn.addEventListener("click", mostrarModal);
+                    
+                    // call the modal window to the button to edit 
+                    editarBtn.addEventListener("click", function(){
+                        mostrarModal(dato.Id);
+                    });
 
-
+                    // Call the button to delete 
+                    borrarBtn.addEventListener("click", function(){
+                        deleteUsers(dato.Id);
+                    });
 
 				});
 			});
