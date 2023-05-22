@@ -45,9 +45,3 @@ function Correcto(){
   contenedor.innerHTML = 'Datos Enviados con exito:)';
 
 }
-
-
-
-
-
-
