@@ -19,3 +19,33 @@ Next, change the loop condition to stop once the value has stopped changing (or 
 (Note: If you are interested in the details of the algorithm, the z² − x above is how far away z² is from where it needs to be (x), and the division by 2z is the derivative of z², to scale how much we adjust z by how quickly z² is changing. This general approach is called Newton's method. It works well for many functions but especially well for square root.)
 */
 
+package main
+
+import (
+    "fmt"
+)
+
+func Sqrt( x float64 ) float64 {
+    z := float64(0.1);
+
+    for {  
+        z -= (z*z - x) / (2*z) 
+        sqrtData := z * z
+        fmt.Println(z ," = ", sqrtData );
+        if sqrtData == x {
+            return z
+        }
+    }
+
+}
+
+func main(){
+    var number float64
+
+    fmt.Print("Que raiz cuadrada deseas calcular? ");
+    fmt.Scan(&number)
+
+    fmt.Println("Su raiz cuadrada es ", Sqrt(number))
+}
+
+
