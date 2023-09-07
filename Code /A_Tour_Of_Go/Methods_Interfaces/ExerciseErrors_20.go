@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+
 type ErrNegativeSqrt float64
 
 func (e ErrNegativeSqrt) Error() string {
