@@ -1,5 +1,3 @@
-
-
 package main
 
 
@@ -40,8 +38,6 @@ func main() {
     })
     
     fmt.Println("Server in 80")
-    http.ListenAndServe(":8080", nil)
-    
+    http.ListenAndServe(":8080", nil)    
 }
-
 
